@@ -1,17 +1,127 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>togglebutton-html5</title>
+	<title>slidebutton</title>
+	<!-- CSS -->
 	<!-- JavaScript -->
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script src="//jquery-element.github.io/dist/jquery-element-1.7.0.js"></script>
-	<script src="togglebutton.js"></script>
+	<script src="slidebutton.js"></script>
+	<style type="text/css">
+		body {
+			margin: 0;
+			box-sizing: border-box;
+			padding: 35px 0 0 0;
+			font-family: sans-serif;
+			background: #333;
+			color: #aaa;
+		}
+		#demo {
+			width: 750px;
+			margin: 50px auto;
+		}
+		table {
+			margin-top: 40px;
+			width: 100%;
+			background: rgba(0,0,0,.2);
+			border-radius: 4px;
+		}
+		thead {
+			font-weight: bold;
+		}
+		thead td {
+			padding: 10px;
+		}
+		thead,
+		td:first-child {
+			width: 40%;
+			text-align: center;
+		}
+		pre {
+			color: #888;
+		}
+		pre b {
+			color: #ddd;
+		}
+		.a { width:10px; height:5px; }
+		.b { width:40px; height:15px; }
+		.c { width:100px; height:20px; }
+	</style>
 </head>
 <body>
-	<input
-		data-jquery-element="togglebutton"
-		class="togglebutton"
-		type="button"
-	/>
+	<div id="demo">
+		<h2>A custom HTML5 slide button</h2>
+		<table border="0">
+			<thead>
+				<tr>
+					<td>Preview</td>
+					<td>HTML</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<input
+							data-jquery-element="slidebutton"
+							data-jquery-element-class="a"
+							type="button"
+						/>
+					</td>
+					<td>
+						<pre>
+&lt;style&gt; .a { width:10px; height:5px; } &lt;/style&gt;
+
+&lt;script src="<b>jquery.js</b>"&gt;&lt;/script&gt;</b>
+&lt;script src="<b>jquery-element.js</b>"&gt;&lt;/script&gt;</b>
+&lt;script src="<b>slidebutton.js</b>"&gt;&lt;/script&gt;</b>
+
+&lt;input data-jquery-element="slidebutton" type="button" /&gt;
+						</pre>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input
+							data-jquery-element="slidebutton"
+							data-jquery-element-class="b"
+							type="button"
+						/>
+					</td>
+					<td>
+						<pre>
+&lt;style&gt; .b { width:40px; height:15px; } &lt;/style&gt;
+
+&lt;script src="<b>jquery.js</b>"&gt;&lt;/script&gt;</b>
+&lt;script src="<b>jquery-element.js</b>"&gt;&lt;/script&gt;</b>
+&lt;script src="<b>slidebutton.js</b>"&gt;&lt;/script&gt;</b>
+
+&lt;input data-jquery-element="slidebutton" type="button" /&gt;
+						</pre>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input
+							data-jquery-element="slidebutton"
+							data-jquery-element-class="c"
+							type="button"
+						/>
+					</td>
+					<td>
+						<pre>
+&lt;style&gt; .c { width:100px; height:20px; } &lt;/style&gt;
+
+&lt;script src="<b>jquery.js</b>"&gt;&lt;/script&gt;</b>
+&lt;script src="<b>jquery-element.js</b>"&gt;&lt;/script&gt;</b>
+&lt;script src="<b>slidebutton.js</b>"&gt;&lt;/script&gt;</b>
+
+&lt;input data-jquery-element="slidebutton" type="button" /&gt;
+						</pre>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
 </body>
 </html>
