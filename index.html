@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>slidebutton</title>
-	<!-- CSS -->
-	<!-- JavaScript -->
-	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	<meta charset="UTF-8"/>
+	<title>slideButton</title>
+	<script src="//code.jquery.com/jquery-3.0.0-alpha1.min.js"></script>
 	<script src="//jquery-element.github.io/dist/jquery-element-1.7.0.js"></script>
 	<script src="slidebutton.js"></script>
-	<style type="text/css">
+	<style>
 		body {
 			margin: 0;
 			box-sizing: border-box;
@@ -23,7 +22,7 @@
 		table {
 			margin-top: 40px;
 			width: 100%;
-			background: rgba(0,0,0,.2);
+			background: rgba( 0, 0, 0, .2 );
 			border-radius: 4px;
 		}
 		thead {
@@ -36,12 +35,6 @@
 		td:first-child {
 			width: 40%;
 			text-align: center;
-			-webkit-touch-callout: none;\
-			-webkit-user-select: none;\
-		     -khtml-user-select: none;\
-		       -moz-user-select: none;\
-		        -ms-user-select: none;\
-		    		user-select: none;\
 		}
 		pre {
 			color: #888;
@@ -57,7 +50,7 @@
 <body>
 	<div id="demo">
 		<h2>A custom HTML5 slide button</h2>
-		<table border="0">
+		<table>
 			<thead>
 				<tr>
 					<td>Preview</td>
