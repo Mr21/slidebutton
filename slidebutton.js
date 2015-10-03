@@ -7,7 +7,9 @@ $.element( {
 	name: "slidebutton",
 	htmlReplace:
 		'<div class="slidebutton">'+
-			'<div class="slidebutton-track"></div>'+
+			'<div class="slidebutton-track">'+
+				'<div class="slidebutton-on"></div>'+
+			'</div>'+
 			'<span class="slidebutton-thumb"></span>'+
 		'</div>'
 	,
@@ -17,7 +19,6 @@ $.element( {
 			position: relative;\
 			min-width: 20px;\
 			min-height: 10px;\
-			max-height: 20px;\
 			cursor: pointer;\
 			-webkit-touch-callout: none;\
 			-webkit-user-select: none;\
@@ -27,56 +28,58 @@ $.element( {
 		}\
 		.slidebutton-track {\
 			overflow: hidden;\
-			position: relative;\
-			width: 100%;\
-			background-color: rgba( 0, 0, 0, .33 );\
-		}\
-		.slidebutton-track:before {\
-			content: "";\
-			left: 0;\
-			width: 7px;\
-			background-color: #f33;\
-		}\
-		.slidebutton-track,\
-		.slidebutton-track:before {\
 			height: 100%;\
-			border-radius: 10px;\
+			border-radius: 9999px;\
+			background-color: rgba( 0, 0, 0, .5 );\
 		}\
-		.slidebutton-active .slidebutton-track:before {\
-			width: 100%;\
-		}\
-		.slidebutton-thumb {\
-			display: inline-block;\
+		.slidebutton-on {\
+			width: 0;\
 			height: 100%;\
-			left: -1px;\
-			border-radius: 50%;\
-			background-color: #fff;\
+			background: #f33;\
 		}\
-		.slidebutton-track,\
-		.slidebutton-thumb {\
-			top: 0;\
-		}\
-		.slidebutton-track:before,\
 		.slidebutton-thumb {\
 			position: absolute;\
-			transition: all .3s;\
+			height: 100%;\
+			top: 0;\
+			left: 0;\
+			margin-left: -1px;\
+			border-radius: 50%;\
+			background: #fff;\
+		}\
+		.slidebutton-active .slidebutton-thumb {\
+			margin-left: 1px;\
+		}\
+		.slidebutton-on,\
+		.slidebutton-thumb {\
+			transition: all .2s;\
 		}\
 	',
 	init: function() {
 		var
 			jqElement = this.jqElement,
 			jqThumb = jqElement.children( ".slidebutton-thumb" ),
-			active = false
+			jqOn = jqElement.find( ".slidebutton-on" ),
+			thumbH = jqThumb.height(),
+			active = false,
+			elemW
 		;
 
-		jqThumb.css( "width", jqElement.height() );
+		jqThumb.css( "width", thumbH );
+		jqOn.css( "width", thumbH / 2 );
 
 		jqElement.click( function() {
-			jqThumb.css(
-				"left",
-				active ? -1 : jqElement.width() - jqThumb.width() + 1
-			);
-			jqElement.toggleClass( "slidebutton-active", active = !active );
+			thumbH = jqThumb.height();
+
+			if ( active = !active ) {
+				elemW = jqElement.width();
+				jqOn.css( "width", elemW - thumbH / 2 );
+				jqThumb.css( "left", elemW - thumbH );
+			} else {
+				jqOn.css( "width", thumbH / 2 );
+				jqThumb.css( "left", 0 );
+			}
+
+			jqElement.toggleClass( "slidebutton-active", active );
 		});
 	}
 });
