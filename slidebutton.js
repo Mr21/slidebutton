@@ -1,5 +1,5 @@
 /*
-	slidebutton - 1.0.0
+	slidebutton - 1.1.0
 	https://github.com/jquery-element/slidebutton
 */
 
@@ -64,12 +64,10 @@ $.element( {
 			jqThumb = jqElement.children( ".slidebutton-thumb" ),
 			jqOn = jqElement.find( ".slidebutton-on" ),
 			thumbH = jqThumb.height(),
-			active = false,
-			elemW,
 
-			elCheckbox = jqElement.children( "input" )[ 0 ],
+			jqCheckbox = jqElement.children( "input" ),
 			mutation = new MutationObserver( update )
-				.observe( elCheckbox, {
+				.observe( jqCheckbox[ 0 ], {
 					attributes: true,
 					attributeFilter: [ "checked" ]
 				})
@@ -78,9 +76,17 @@ $.element( {
 		jqThumb.css( "width", thumbH );
 		jqOn.css( "width", thumbH / 2 );
 
+		function isChecked() {
+			return typeof jqCheckbox.attr( "checked" ) === "string";
+		}
+
 		function update() {
-			thumbH = jqThumb.height();
-			if ( elCheckbox.checked ) {
+			var
+				elemW,
+				thumbH = jqThumb.height(),
+				checked = isChecked()
+			;
+			if ( checked ) {
 				elemW = jqElement.width();
 				jqOn.css( "width", elemW - thumbH / 2 );
 				jqThumb.css( "left", elemW - thumbH );
@@ -88,16 +94,11 @@ $.element( {
 				jqOn.css( "width", thumbH / 2 );
 				jqThumb.css( "left", 0 );
 			}
-			jqElement.toggleClass( "slidebutton-active", active );
+			jqElement.toggleClass( "slidebutton-active", checked );
 		}
 
-
 		jqElement.click( function() {
-			if ( elCheckbox.checked ) {
-				elCheckbox.removeAttribute( "checked" );
-			} else {
-				elCheckbox.setAttribute( "checked", "checked" );
-			}
+			jqCheckbox.attr( "checked", isChecked() ? null : "checked" );
 		});
 
 		update();
