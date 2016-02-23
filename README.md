@@ -2,19 +2,16 @@
 
 ``` html
 <script src="//code.jquery.com/jquery-3.0.0-alpha1.min.js"></script>
-<script src="//jquery-element.github.io/dist/jquery-element-1.7.0.js"></script>
-<script src="//jquery-element.github.io/dist/slidebutton-1.0.0.js"></script>
+<script src="//jquery-element.github.io/dist/jquery-element-2.0.0.js"></script>
+<script src="//jquery-element.github.io/dist/slidebutton-2.0.0.js"></script>
 
 <!-- slidedutton OFF -->
-<input
-	type="checkbox"
+<input type="checkbox"
 	data-jquery-element="slidebutton"
 />
 
 <!-- slidedutton ON -->
-<input
-	type="checkbox"
-	checked
+<input type="checkbox" checked
 	data-jquery-element="slidebutton"
 />
 ```
