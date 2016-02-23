@@ -1,10 +1,27 @@
 /*
-	slidebutton - 1.1.0
+	slidebutton - 2.0.0
 	https://github.com/jquery-element/slidebutton
 */
 
+(function() {
+
+function updateChecked( that ) {
+	var chk = typeof that.attr.checked === "string";
+	that.jqElement.toggleClass( "slidebutton-checked", chk );
+	that.attr.checked = chk && "checked";
+	that.jqCheckbox[ 0 ].checked = chk;
+}
+
 $.element( {
 	name: "slidebutton",
+	attributes: {
+		filter: [ "checked" ],
+		callback: function( name, val, oldval ) {
+			if ( val !== oldval ) {
+				updateChecked( this );
+			}
+		}
+	},
 	htmlReplace:
 		'<div class="slidebutton">'+
 			'{{html}}'+
@@ -14,15 +31,59 @@ $.element( {
 			'<span class="slidebutton-thumb"></span>'+
 		'</div>'
 	,
+	init: function() {
+		var that = this;
+
+		this.jqOn = this.jqElement.find( ".slidebutton-on" );
+		this.jqThumb = this.jqElement.children( ".slidebutton-thumb" );
+		this.jqCheckbox = this.jqElement.children( "input" );
+		this.okBlur = true;
+		this.focused = false;
+
+		updateChecked( this );
+
+		this.jqCheckbox
+			.focus( function() {
+				if ( !that.focused ) {
+					that.focused = true;
+					that.jqElement.addClass( "slidebutton-focus" );
+				}
+			})
+			.blur( function() {
+				if ( that.okBlur ) {
+					that.focused = false;
+					that.jqElement.removeClass( "slidebutton-focus" );
+				} else {
+					that.okBlur = true;
+					that.jqCheckbox.focus();
+				}
+			})
+		;
+
+		this.jqElement
+			.mousedown( function() {
+				that.okBlur = false;
+				that.jqCheckbox.focus();
+			})
+			.click( function() {
+				that.jqCheckbox
+					.focus()
+					.attr( "checked", that.attr.checked ? null : "" )
+				;
+			})
+		;
+	},
 	css: '\
 		.slidebutton input {\
-			display: none;\
+			position: absolute;\
+			top: -999999px;\
+			opacity: .5;\
 		}\
 		.slidebutton {\
 			display: inline-block;\
 			position: relative;\
-			min-width: 20px;\
-			min-height: 10px;\
+			width: 1.5em;\
+			height: .7em;\
 			cursor: pointer;\
 			-webkit-touch-callout: none;\
 			-webkit-user-select: none;\
@@ -31,18 +92,28 @@ $.element( {
 			        user-select: none;\
 		}\
 		.slidebutton-track {\
+			position: relative;\
 			overflow: hidden;\
+			box-sizing: border-box;\
 			height: 100%;\
-			border-radius: 9999px;\
+			border-radius: 999999px;\
 			background-color: rgba( 0, 0, 0, .5 );\
 		}\
+		.slidebutton-focus .slidebutton-track {\
+			border: .1em solid rgba( 255, 255, 255, .4 );\
+		}\
 		.slidebutton-on {\
-			width: 0;\
+			width: .35em;\
 			height: 100%;\
 			background: #f33;\
 		}\
+		.slidebutton-checked .slidebutton-on {\
+			width: 100%;\
+			margin-left: -.35em;\
+		}\
 		.slidebutton-thumb {\
 			position: absolute;\
+			width: .7em;\
 			height: 100%;\
 			top: 0;\
 			left: 0;\
@@ -50,57 +121,15 @@ $.element( {
 			border-radius: 50%;\
 			background: #fff;\
 		}\
-		.slidebutton-active .slidebutton-thumb {\
-			margin-left: 1px;\
+		.slidebutton-checked .slidebutton-thumb {\
+			left: 100%;\
+			margin-left: -.7em;\
 		}\
 		.slidebutton-on,\
 		.slidebutton-thumb {\
 			transition: all .2s;\
 		}\
-	',
-	init: function() {
-		var
-			jqElement = this.jqElement,
-			jqThumb = jqElement.children( ".slidebutton-thumb" ),
-			jqOn = jqElement.find( ".slidebutton-on" ),
-			thumbH = jqThumb.height(),
-
-			jqCheckbox = jqElement.children( "input" ),
-			mutation = new MutationObserver( update )
-				.observe( jqCheckbox[ 0 ], {
-					attributes: true,
-					attributeFilter: [ "checked" ]
-				})
-		;
-
-		jqThumb.css( "width", thumbH );
-		jqOn.css( "width", thumbH / 2 );
-
-		function isChecked() {
-			return typeof jqCheckbox.attr( "checked" ) === "string";
-		}
-
-		function update() {
-			var
-				elemW,
-				thumbH = jqThumb.height(),
-				checked = isChecked()
-			;
-			if ( checked ) {
-				elemW = jqElement.width();
-				jqOn.css( "width", elemW - thumbH / 2 );
-				jqThumb.css( "left", elemW - thumbH );
-			} else {
-				jqOn.css( "width", thumbH / 2 );
-				jqThumb.css( "left", 0 );
-			}
-			jqElement.toggleClass( "slidebutton-active", checked );
-		}
-
-		jqElement.click( function() {
-			jqCheckbox.attr( "checked", isChecked() ? null : "checked" );
-		});
-
-		update();
-	}
+	'
 });
+
+})();
